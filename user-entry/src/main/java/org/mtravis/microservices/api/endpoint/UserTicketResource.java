@@ -43,15 +43,6 @@ curl --header "Content-Type: application/json" \
   --data '{"id":"ef0779db-2ee6-4982-98c4-a1bb602b40ed","ticketId":"ef0779db-2ee6-4982-98c4-a1bb602b4009","vehicle":{"licenseNumber":"H2C 4Ch","type":"LARGE"},"parkingSpot":7}' \
   http://localhost:8080/api/ticket/v2
      */
-    @Path("/v2")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response ticket(UserEntryDto userEntryDto){
-        LOGGER.info("ticket call");
-        LOGGER.info("PARA:{}",userEntryDto);
-        return Response.status(Response.Status.ACCEPTED).entity(userEntryDto).build();
-    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -59,27 +50,21 @@ curl --header "Content-Type: application/json" \
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Generates a ticket")
     @Retry(maxRetries = 1, delay = 2000)
-//    @Fallback(fallbackMethod = "fallbackOnTicketCreate")
+    @Fallback(fallbackMethod = "fallbackOnTicketCreate")
     @Timed(value = "timeCreateTicket",description = "How long it takes to generate a ticket")
     public Response createTicket(UserEntryDto userEntryDto) {
         LOGGER.info("Executing createTicket('{}')", userEntryDto);
-        // Take the user info and vehicle info
-        // and assign a parking place return parking place
-        // and ticket ID.
         if (userEntryDto.id == null){
             userEntryDto.generateId();
         }
-        LOGGER.info("Generating a parking ticket.");
-        LOGGER.info("vehicle:'{}'", userEntryDto.vehicle);
-        String vehicleData = null;
-        try {
-            vehicleData = mapper.writeValueAsString(userEntryDto.vehicle);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        LOGGER.info("jsonVehicleData:{}", vehicleData);
+        // V1 Service pass the license number (going to remove this)
         TicketInformation ticketInformation = parkingServicesApi.generateParkingTicketInfo(userEntryDto.vehicle.getLicenseNumber());
+        // V2 Service pass the object that contains both license and type of vehicle
+        TicketInformation updatedService = parkingServicesApi.generateParkingTicketInfo(userEntryDto.vehicle);
+        LOGGER.info("updatedTicketService:{}", updatedService.toString());
         LOGGER.info("TicketInfo:{}", ticketInformation.toString());
+
+        // build the ticket to be returned to the client
         Ticket ticket = Ticket.builder()
                 .id(ticketInformation.ticketId)
                 .parkingSpot(ticketInformation.parkingSpot)
@@ -93,21 +78,18 @@ curl --header "Content-Type: application/json" \
     }
 
     public Response fallbackOnTicketCreate(UserEntryDto userEntryDto) {
-        LOGGER.info("FallbackOnTicketCreate called");
-        LOGGER.info("Executing createTicket('{}')", userEntryDto);
-        // Take the user info and vehicle info
-        // and assign a parking place return parking place
-        // and ticket ID.
+        LOGGER.info("Executing fallback createTicket('{}')", userEntryDto);
         if (userEntryDto.id == null){
             userEntryDto.generateId();
         }
         LOGGER.info("Generating fake parking data.");
         userEntryDto.ticketId = UUID.randomUUID();
         userEntryDto.parkingSpot = 1337;
+        String licenseNumber = userEntryDto.vehicle.getLicenseNumber() == null ? "EJH123" : userEntryDto.getVehicle().getLicenseNumber();
         Ticket ticket = Ticket.builder()
                 .id(userEntryDto.getTicketId())
                 .parkingSpot(userEntryDto.getParkingSpot())
-                .licenseNumber(userEntryDto.getVehicle().getLicenseNumber())
+                .licenseNumber(licenseNumber)
                 .entryTime(Instant.now())
                 .build();
         LOGGER.info("Ticket created:{}", ticket);

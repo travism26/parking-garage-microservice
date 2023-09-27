@@ -11,7 +11,6 @@ public class TicketInformation {
     public UUID ticketId;
     @JsonProperty("parking_spot")
     public long parkingSpot;
-
     @JsonProperty("entry_time")
     public Instant entryTime;
 

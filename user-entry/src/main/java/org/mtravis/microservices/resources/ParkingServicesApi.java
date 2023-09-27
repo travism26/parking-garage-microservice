@@ -14,4 +14,9 @@ public interface ParkingServicesApi {
     @Path("/api/parking")
     @Produces(MediaType.APPLICATION_JSON)
     TicketInformation generateParkingTicketInfo(@QueryParam("license")String licence);
+
+    @POST
+    @Path("/api/parking/v2")
+    @Produces(MediaType.APPLICATION_JSON)
+    TicketInformation generateParkingTicketInfo(Vehicle vehicle);
 }
