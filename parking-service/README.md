@@ -11,7 +11,15 @@ You can run your application in dev mode that enables live coding using:
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+### Send a payload to the endpoint
+```commandline
+curl --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"licenseNumber":"H2C 4Ch","type":"LARGE"}' \
+    http://localhost:8702/api/parking/v2
+```
+
+> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8702/q/dev/.
 
 ## Packaging and running the application
 

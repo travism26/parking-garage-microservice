@@ -15,7 +15,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.mtravis.microservices.api.model.Ticket;
 import org.mtravis.microservices.api.model.UserEntryDto;
-import org.mtravis.microservices.api.model.Vehicle;
 import org.mtravis.microservices.resources.ParkingServicesApi;
 import org.mtravis.microservices.resources.TicketInformation;
 import org.slf4j.Logger;
@@ -40,8 +39,8 @@ public class UserTicketResource {
     /* CUrl call:
 curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{"id":"ef0779db-2ee6-4982-98c4-a1bb602b40ed","ticketId":"ef0779db-2ee6-4982-98c4-a1bb602b4009","vehicle":{"licenseNumber":"H2C 4Ch","type":"LARGE"},"parkingSpot":7}' \
-  http://localhost:8080/api/ticket/v2
+  --data '{"id":"ef0779db-2ee6-4982-98c4-a1bb602b40ed","vehicle":{"licenseNumber":"Travis","type":"LARGE"}}' \
+  http://localhost:8701/api/ticket
      */
 
     @POST
@@ -57,12 +56,8 @@ curl --header "Content-Type: application/json" \
         if (userEntryDto.id == null){
             userEntryDto.generateId();
         }
-        // V1 Service pass the license number (going to remove this)
-        TicketInformation ticketInformation = parkingServicesApi.generateParkingTicketInfo(userEntryDto.vehicle.getLicenseNumber());
-        // V2 Service pass the object that contains both license and type of vehicle
-        TicketInformation updatedService = parkingServicesApi.generateParkingTicketInfo(userEntryDto.vehicle);
-        LOGGER.info("updatedTicketService:{}", updatedService.toString());
-        LOGGER.info("TicketInfo:{}", ticketInformation.toString());
+        TicketInformation ticketInformation = parkingServicesApi.generateParkingTicketInfo(userEntryDto.vehicle);
+        LOGGER.info("updatedTicketService:{}", ticketInformation.toString());
 
         // build the ticket to be returned to the client
         Ticket ticket = Ticket.builder()

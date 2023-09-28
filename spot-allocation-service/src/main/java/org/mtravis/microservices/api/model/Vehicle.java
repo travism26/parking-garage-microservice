@@ -1,5 +1,6 @@
 package org.mtravis.microservices.api.model;
 
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,7 +11,6 @@ public class Vehicle {
     VehicleType type;
 
     public enum VehicleType {
-        SMALL, MEDIUM, LARGE, XLARGE
+        SMALL, MEDIUM, LARGE, EXTRA_LARGE
     }
 }
-
