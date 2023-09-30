@@ -60,6 +60,7 @@ curl --header "Content-Type: application/json" \
         LOGGER.info("updatedTicketService:{}", ticketInformation.toString());
 
         // build the ticket to be returned to the client
+        // Create a DTO mapper and replace this manual task.
         Ticket ticket = Ticket.builder()
                 .id(ticketInformation.ticketId)
                 .parkingSpot(ticketInformation.parkingSpot)

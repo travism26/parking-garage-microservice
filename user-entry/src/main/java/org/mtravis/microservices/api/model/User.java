@@ -6,6 +6,9 @@ import lombok.Data;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Domain model of a user. Not yet used.
+ */
 @Data
 @Builder
 public class User {
