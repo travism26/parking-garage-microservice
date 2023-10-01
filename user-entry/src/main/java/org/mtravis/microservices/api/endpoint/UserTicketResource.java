@@ -1,6 +1,5 @@
 package org.mtravis.microservices.api.endpoint;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.annotation.Timed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,8 +12,8 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.mtravis.microservices.api.model.Ticket;
-import org.mtravis.microservices.api.model.UserEntryDto;
+import org.mtravis.microservices.model.Ticket;
+import org.mtravis.microservices.model.UserEntryDto;
 import org.mtravis.microservices.resources.ParkingServicesApi;
 import org.mtravis.microservices.resources.TicketInformation;
 import org.slf4j.Logger;
