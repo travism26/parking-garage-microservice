@@ -1,4 +1,4 @@
-package org.mtravis.microservices.api.model;
+package org.mtravis.microservices.model;
 
 import java.util.List;
 import java.util.UUID;

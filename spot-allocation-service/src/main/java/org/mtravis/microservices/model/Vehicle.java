@@ -1,4 +1,4 @@
-package org.mtravis.microservices.api.model;
+package org.mtravis.microservices.model;
 
 
 import lombok.Builder;
