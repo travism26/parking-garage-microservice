@@ -28,3 +28,6 @@ This is kind of an overkill application but just want to demonstrate the microse
 I will mention some resources that I used when learning this framework the author is `Antonio Goncalves` there is a great course I can recommend: 
 - [Agoncal](https://www.udemy.com/share/105Cmy3@k_dxIuEXxuER_PeuIPTH63h8Qkr7bvN9p5g6dF0iwmX2lOukAeEU45C6nnbJpwPdbA==/)
 - [Agnocal Personal Website](https://antoniogoncalves.org/)
+
+# System Architecture Overview
+![](screenshots/microservice_diagram_user_input.png)
