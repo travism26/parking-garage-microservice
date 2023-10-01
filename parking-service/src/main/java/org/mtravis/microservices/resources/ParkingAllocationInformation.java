@@ -1,9 +1,9 @@
-package org.mtravis.microservices.api.resources;
+package org.mtravis.microservices.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
-import org.mtravis.microservices.api.model.Vehicle;
+import org.mtravis.microservices.model.Vehicle;
 
 @Data
 @Builder

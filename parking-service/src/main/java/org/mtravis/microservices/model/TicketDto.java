@@ -1,4 +1,4 @@
-package org.mtravis.microservices.api.model;
+package org.mtravis.microservices.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -12,8 +12,6 @@ import java.util.UUID;
 public class TicketDto {
     @JsonProperty("ticket_id")
     public UUID ticketId; // this will be set by the other microservice
-    //    User user; // save some user data maybe?
-    public Vehicle vehicle; // This is sent from user-entry service
     @JsonProperty("parking_spot")
     public long parkingSpot; // this will be set by the other microservice
     @JsonProperty("spot_type")

@@ -1,4 +1,4 @@
-package org.mtravis.microservices.api.model;
+package org.mtravis.microservices.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,6 +6,9 @@ import lombok.Data;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Domain model of a user. Not yet used.
+ */
 @Data
 @Builder
 public class User {
