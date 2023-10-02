@@ -6,14 +6,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.mtravis.microservices.api.model.ParkingSpotDto;
-import org.mtravis.microservices.api.model.Vehicle;
+import org.mtravis.microservices.model.ParkingSpotDto;
+import org.mtravis.microservices.model.Vehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
-import static org.mtravis.microservices.api.model.ParkingSpot.spotType.XLARGE;
+import static org.mtravis.microservices.model.ParkingSpot.spotType.XLARGE;
 
 @Path("/api/spot/allocation")
 public class SpotAllocationResource {
