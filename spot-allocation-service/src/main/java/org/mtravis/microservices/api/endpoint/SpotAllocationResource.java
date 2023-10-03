@@ -36,16 +36,12 @@ http://localhost:8703/api/spot/allocation
     @Produces(MediaType.APPLICATION_JSON)
     public Response allocateParkingSpot(ParkingSpotDto parkingSpotDto){
         LOGGER.info("fetchParkingSpot({})", parkingSpotDto.toString());
-
-        // Generate a random long parking spot we don't yet have the business logic to
-        // fetch from a database and find the "Closest" parking spot to be created!
-        // Create dummy data and return.
-        long parkingSpots =0;
         try {
             LOGGER.info("Attempting to fetch parking spot from database with vehicle type:'{}'", parkingSpotDto);
             ParkingSpot parkingSpot = spotAllocationService.assignParkingSpot(parkingSpotDto.spotType);
             if (parkingSpot == null) {
-                // No parking spot available lets set dummy data to be returned
+                // No parking spot available lets set dummy data to be returned handle downstream.
+                // got to be a better approach ill research this.
                 parkingSpotDto.parkingSpot = 0;
                 parkingSpotDto.spotType = ParkingSpotType.NA;
             } else {
@@ -56,7 +52,6 @@ http://localhost:8703/api/spot/allocation
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         LOGGER.info("Return parking spot:{}", parkingSpotDto.toString());
         return Response.status(Response.Status.ACCEPTED).entity(parkingSpotDto).build();
     }
