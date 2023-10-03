@@ -10,16 +10,11 @@ import jakarta.ws.rs.core.Response;
 import org.mtravis.microservices.SpotAllocationService;
 import org.mtravis.microservices.model.ParkingSpot;
 import org.mtravis.microservices.model.ParkingSpotDto;
-import org.mtravis.microservices.model.Vehicle;
-import org.mtravis.microservices.persistence.ParkingSpotEntity;
 import org.mtravis.microservices.persistence.ParkingSpotType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Random;
-
-import static org.mtravis.microservices.persistence.ParkingSpotType.XLARGE;
 
 @Path("/api/spot/allocation")
 public class SpotAllocationResource {
@@ -29,16 +24,8 @@ public class SpotAllocationResource {
     @Inject
     SpotAllocationService spotAllocationService;
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello from RESTEasy Reactive";
-    }
 
-    // We need a POST endpoint that will get ticket information and find an available parking spot based off
-    // vehicle information (SMALL, MED, LARGE, XLARGE)
 
-    
     /*
 curl --header "Content-Type: application/json" \
 --request POST \
@@ -57,14 +44,20 @@ http://localhost:8703/api/spot/allocation
         try {
             LOGGER.info("Attempting to fetch parking spot from database with vehicle type:'{}'", parkingSpotDto);
             ParkingSpot parkingSpot = spotAllocationService.assignParkingSpot(parkingSpotDto.spotType);
-            parkingSpotDto.parkingSpot = parkingSpot.getSpotNumber();
-            parkingSpotDto.spotType = parkingSpot.getSpotType();
+            if (parkingSpot == null) {
+                // No parking spot available lets set dummy data to be returned
+                parkingSpotDto.parkingSpot = 0;
+                parkingSpotDto.spotType = ParkingSpotType.NA;
+            } else {
+                parkingSpotDto.parkingSpot = parkingSpot.getSpotNumber();
+                parkingSpotDto.spotType = parkingSpot.getSpotType();
+            }
             LOGGER.info("Updated parkingSpotDto:'{}'", parkingSpotDto);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        LOGGER.info("Return parkingspot:{}", parkingSpotDto.toString());
+        LOGGER.info("Return parking spot:{}", parkingSpotDto.toString());
         return Response.status(Response.Status.ACCEPTED).entity(parkingSpotDto).build();
     }
 }

@@ -26,58 +26,23 @@ public class SpotAllocationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpotAllocationService.class);
     ParkingSpotMapper mapper = new ParkingSpotMapper();
-
-    /*
-        @Transactional
-    public boolean create(Ticket ticket) throws JsonProcessingException {
-        UUID id = ticket.getId();
-        LOGGER.info("Attempting to persist a ticket with an ID '{}'", id);
-
-        if (ticketRepository.find("id = ?1", id).firstResult() != null) {
-            LOGGER.warn("Ticket already exists in the database, did not persist");
-            return false;
-        }
-        TicketEntity ticketEntity = ticketMapper.toEntity(ticket);
-        LOGGER.info("Saving to DB");
-        ticketRepository.persist(ticketEntity);
-        LOGGER.info("Successfully persisted book: {}", ticket);
-        return true;
-
-            @Transactional
-    public boolean delete(UUID ticketId){
-        TicketEntity ticketEntity =
-                ticketRepository.find("id = ?1", ticketId).firstResult();
-        if (ticketEntity == null){
-            LOGGER.info("Ticket you attempted to delete does not exist");
-            return false;
-        }
-        ticketRepository.delete("id = ?1", ticketId);
-        return true;
-    }
-    }
-     */
     @Transactional
     public ParkingSpot assignParkingSpot(ParkingSpotType vehicleType) throws IOException {
-        // we get a request for a parking spot given a vehicleType: SMALL, MEDIUM, LARGE, XLARGE
         LOGGER.info("Attempting to retrieve an unoccupied parking spot: {}", vehicleType);
-        Map<String, Object> params = new HashMap<>();
-        params.put("spot_type", vehicleType.name());
-        params.put("occupied", false);
         // we should have a cache layer to be created
         if(repository.find("occupied = ?1 and spotType = ?2",false, vehicleType).firstResult() == null){
             LOGGER.warn("Could not find spot_type");
             // we should throw an exception not return null and catch it down stream.
             return null;
         }
-        LOGGER.info("Find ParkingSpot");
         ParkingSpotEntity parkingSpotEntity =
                 repository
                         .find("occupied = ?1 and spotType = ?2",false, vehicleType)
                         .firstResult();
-        LOGGER.info("Found parking spot:{}", parkingSpotEntity.toString());
+        LOGGER.info("Found parking spot:{} attempting to update parking spot isOccupied = true", parkingSpotEntity.toString());
         boolean setOccupied = setParkingSpotOccupied(parkingSpotEntity.id, true);
         if(!setOccupied){
-            LOGGER.info("Could not update the parking spot: '{}' to occupied", parkingSpotEntity.id);
+            LOGGER.warn("Could not update the parking spot: '{}' to occupied", parkingSpotEntity.id);
             return null;
         }
         return mapper.toDomain(parkingSpotEntity);
