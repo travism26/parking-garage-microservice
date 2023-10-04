@@ -73,6 +73,7 @@ http://localhost:8702/api/parking/v2
                 .build();
         // Map the ticket -> ticketDto that will be returned
         TicketDto ticketDto = ticketMapper.toDto(ticket);
+        ticketDto.spotType = allocationInformation.getSpotType();
         // This is the part of persistence
         boolean persistBook = false;
         try {
@@ -85,7 +86,7 @@ http://localhost:8702/api/parking/v2
             return Response.status(Response.Status.CONFLICT).build();
         }
 
-        LOGGER.info("Created Ticket:{}", ticketDto.toString());
+        LOGGER.info("Created Ticket:{}", ticketDto);
         return Response.status(Response.Status.ACCEPTED).entity(ticketDto).build();
     }
 }

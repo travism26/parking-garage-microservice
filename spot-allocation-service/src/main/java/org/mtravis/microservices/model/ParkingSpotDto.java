@@ -11,6 +11,6 @@ public class ParkingSpotDto {
 
     @JsonProperty("parking_spot")
     public long parkingSpot;
-    @JsonProperty("parking_type")
+    @JsonProperty("vehicle_size")
     public ParkingSpotType spotType;
 }

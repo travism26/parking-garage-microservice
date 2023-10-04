@@ -15,7 +15,6 @@ public class UserEntryDto {
     public UUID id; // auto generated VIA this service
     @JsonProperty("ticket_id")
     public UUID ticketId; // this will be set by the other microservice
-//    User user; // save some user data maybe?
 
     public Vehicle vehicle; // required for the parking service / spot allocation vehicle.type
     @JsonProperty("parking_spot")
@@ -30,7 +29,6 @@ public class UserEntryDto {
         return "UserEntryDto{" +
                 "id=" + id +
                 ", ticketId=" + ticketId +
-//                ", user=" + user +
                 ", vehicle=" + vehicle +
                 '}';
     }

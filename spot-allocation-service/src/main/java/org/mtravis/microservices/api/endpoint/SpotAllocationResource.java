@@ -29,30 +29,29 @@ public class SpotAllocationResource {
     /*
 curl --header "Content-Type: application/json" \
 --request POST \
---data '{"parking_type":"MEDIUM"}' \
+--data '{"vehicle_size":"MEDIUM"}' \
 http://localhost:8703/api/spot/allocation
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response allocateParkingSpot(ParkingSpotDto parkingSpotDto){
-        LOGGER.info("fetchParkingSpot({})", parkingSpotDto.toString());
+        LOGGER.debug("fetchParkingSpot({})", parkingSpotDto.toString());
         try {
-            LOGGER.info("Attempting to fetch parking spot from database with vehicle type:'{}'", parkingSpotDto);
+            LOGGER.debug("Attempting to fetch parking spot from database with vehicle type:'{}'", parkingSpotDto);
             ParkingSpot parkingSpot = spotAllocationService.assignParkingSpot(parkingSpotDto.spotType);
             if (parkingSpot == null) {
                 // No parking spot available lets set dummy data to be returned handle downstream.
                 // got to be a better approach ill research this.
-                parkingSpotDto.parkingSpot = 0;
+                parkingSpotDto.parkingSpot = -1;
                 parkingSpotDto.spotType = ParkingSpotType.NA;
             } else {
                 parkingSpotDto.parkingSpot = parkingSpot.getSpotNumber();
                 parkingSpotDto.spotType = parkingSpot.getSpotType();
             }
-            LOGGER.info("Updated parkingSpotDto:'{}'", parkingSpotDto);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        LOGGER.info("Return parking spot:{}", parkingSpotDto.toString());
+        LOGGER.info("Return parking spot:{}", parkingSpotDto);
         return Response.status(Response.Status.ACCEPTED).entity(parkingSpotDto).build();
     }
 }
