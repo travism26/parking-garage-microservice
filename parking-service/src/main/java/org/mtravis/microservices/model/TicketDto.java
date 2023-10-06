@@ -15,7 +15,7 @@ public class TicketDto {
     @JsonProperty("parking_spot")
     public long parkingSpot; // this will be set by the other microservice
     @JsonProperty("spot_type")
-    public Vehicle.VehicleType spotType;
+    public ParkingSpotType spotType;
     @JsonProperty("entry_time")
     public Instant entryTime;
     public Instant exitTime;
