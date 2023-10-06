@@ -12,13 +12,12 @@ import java.util.UUID;
 @Data
 @Builder
 public class UserEntryDto {
-    public UUID id; // auto generated VIA this service
+    public UUID id;
     @JsonProperty("ticket_id")
-    public UUID ticketId; // this will be set by the other microservice
-
-    public Vehicle vehicle; // required for the parking service / spot allocation vehicle.type
+    public UUID ticketId;
+    public Vehicle vehicle;
     @JsonProperty("parking_spot")
-    public long parkingSpot; // this will be set by the other microservice
+    public long parkingSpot;
 
     public void generateId(){
         this.id = UUID.randomUUID();

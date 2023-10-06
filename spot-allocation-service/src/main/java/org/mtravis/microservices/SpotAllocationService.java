@@ -15,6 +15,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.UUID;
 
+
+/**
+ * This class represents the business logic for the spot allocation service
+ */
 @Produces
 @ApplicationScoped
 public class SpotAllocationService {
@@ -28,7 +32,7 @@ public class SpotAllocationService {
         LOGGER.info("Attempting to retrieve an unoccupied parking spot: {}", vehicleType);
         // we should have a cache layer to be created
         if(repository.find("occupied = ?1 and spotType = ?2",false, vehicleType).firstResult() == null){
-            LOGGER.warn("Could not find spot_type");
+            LOGGER.warn("Could not find a free parking spot with type:{}", vehicleType);
             // we should throw an exception not return null and catch it down stream.
             return null;
         }

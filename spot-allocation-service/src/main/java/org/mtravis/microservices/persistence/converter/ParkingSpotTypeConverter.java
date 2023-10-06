@@ -10,10 +10,8 @@ import org.slf4j.LoggerFactory;
 public class ParkingSpotTypeConverter implements AttributeConverter<ParkingSpotType, String> {
     public static final Logger LOGGER = LoggerFactory.getLogger(ParkingSpotTypeConverter.class);
 
-
     @Override
     public String convertToDatabaseColumn(ParkingSpotType attribute) {
-        // SMALL, MEDIUM, LARGE, XLARGE;
         switch (attribute) {
             case SMALL:
                 LOGGER.info("Converting {} to string representation", attribute.name());

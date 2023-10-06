@@ -35,10 +35,10 @@ public class UserTicketResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserTicketResource.class);
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    /* CUrl call:
+    /* curl call:
 curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{"id":"ef0779db-2ee6-4982-98c4-a1bb602b40ed","vehicle":{"licenseNumber":"Travis","type":"LARGE"}}' \
+  --data '{"vehicle":{"license_number":"1337","vehicle_size":"MEDIUM"}}' \
   http://localhost:8701/api/ticket
      */
 
@@ -56,10 +56,6 @@ curl --header "Content-Type: application/json" \
         }
         TicketInformation ticketInformation = parkingServicesApi.generateParkingTicketInfo(userEntryDto.vehicle);
         LOGGER.debug("updatedTicketService:{}", ticketInformation.toString());
-
-        // build the ticket to be returned to the client
-        // Create a DTO mapper and replace this manual task.
-        // TODO: Create a DTOMapper example in other services
         Ticket ticket = Ticket.builder()
                 .id(ticketInformation.ticketId)
                 .parkingSpot(ticketInformation.parkingSpot)

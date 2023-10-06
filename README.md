@@ -1,5 +1,7 @@
 # parking-garage-microservice
-Expanding my knowledge in microservices just wanted to create a parking garage microservice I took some inspiration from this [blog post](https://medium.com/double-pointer/system-design-interview-parking-lot-system-ff2c58167651) 
+Expanding my knowledge in microservices just wanted to create a parking garage microservice I took some inspiration from this [blog post](https://medium.com/double-pointer/system-design-interview-parking-lot-system-ff2c58167651)
+I wrote a blog post explaining the implementation details and overview on this project.
+https://www.travisallister.com/post/parking-lot-microservice-application-implementation
 
 ## how to start the application
 There are 3 services (No UI yet):
