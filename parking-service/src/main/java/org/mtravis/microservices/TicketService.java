@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +31,15 @@ public class TicketService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketService.class);
     private final TicketMapper ticketMapper = new TicketMapper();
+
+    public Ticket generateTicket(String license, long parkingSpot){
+        return Ticket.builder()
+                .id(UUID.randomUUID())
+                .entryTime(Instant.now())
+                .licenseNumber(license)
+                .parkingSpot(parkingSpot)
+                .build();
+    }
 
     @Transactional
     public boolean create(Ticket ticket) throws JsonProcessingException {
