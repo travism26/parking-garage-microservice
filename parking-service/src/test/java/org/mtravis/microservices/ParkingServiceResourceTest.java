@@ -51,13 +51,13 @@ public class ParkingServiceResourceTest {
     @Test
     public void testParkingServiceEndpoint() {
         given()
-                .contentType("application/json")
+            .contentType("application/json")
             .body(JSON_MAPPER.writeValueAsString(vehicle))
             .when()
             .post("/api/parking/v2").then()
-                .statusCode(202)
-                .body("ticket_id", is(mockTicket.id.toString()))
-                .defaultParser(Parser.JSON);
+            .statusCode(202)
+            .body("ticket_id", is(mockTicket.id.toString()))
+            .defaultParser(Parser.JSON);
     }
 
 }

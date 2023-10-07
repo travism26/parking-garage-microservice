@@ -27,8 +27,14 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'io.quarkus:quarkus-flyway:3.2.2.Final'
 
+    // Testing dependencies
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'io.quarkus:quarkus-jacoco:3.2.2.Final'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito:3.2.2.Final'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
+    testImplementation 'org.testcontainers:testcontainers:1.18.3'
+    testImplementation 'com.github.tomakehurst:wiremock-jre8-standalone:2.35.0'
 }
 
 group 'org.mtravis.microservices'
@@ -40,6 +46,7 @@ java {
 }
 
 test {
+    useJUnitPlatform()
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
 compileJava {
