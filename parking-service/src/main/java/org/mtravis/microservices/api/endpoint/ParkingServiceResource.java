@@ -48,12 +48,7 @@ http://localhost:8702/api/parking/v2
         LOGGER.info(allocationInformation.toString());
 
         // This will be used for persistence
-        Ticket ticket = Ticket.builder()
-                .id(UUID.randomUUID())
-                .entryTime(Instant.now())
-                .licenseNumber(vehicle.getLicenseNumber())
-                .parkingSpot(allocationInformation.getParkingSpot())
-                .build();
+        Ticket ticket = ticketService.generateTicket(vehicle.getLicenseNumber(), allocationInformation.getParkingSpot());
         // DTO Object return value
         TicketDto ticketDto = ticketMapper.toDto(ticket);
         ticketDto.spotType = allocationInformation.getSpotType();

@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -51,7 +53,10 @@ public class SpotAllocationService {
 
     @Transactional
     public boolean setParkingSpotOccupied(UUID parkingSpotId, boolean isOccupied) {
-        int numberOfUpdates = repository.update("occupied = ?1 where id = ?2", isOccupied, parkingSpotId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("occupied", isOccupied);
+        params.put("spot_id", parkingSpotId);
+        int numberOfUpdates = repository.update("occupied = :occupied where id = :spot_id", params);
         if(numberOfUpdates == 0){
             LOGGER.warn("Failed to update isOccupied:'{}'", isOccupied);
             return false;
