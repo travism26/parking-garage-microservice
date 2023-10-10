@@ -1,10 +1,14 @@
 package org.mtravis.microservices;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import lombok.SneakyThrows;
+import org.flywaydb.core.internal.database.h2.H2Database;
+import org.flywaydb.core.internal.database.h2.H2DatabaseType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,6 +26,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @QuarkusTest
+@QuarkusTestResource(H2DatabaseTestResource.class)
 public class ParkingServiceTest {
     static TicketRepository ticketRepository = Mockito.mock(TicketRepository.class);
 
