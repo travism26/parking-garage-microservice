@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-container-image-jib'
     compileOnly 'org.projectlombok:lombok:1.18.28'
     testCompileOnly 'org.projectlombok:lombok:1.18.28'
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
@@ -56,4 +57,14 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+
+// Adding my docker creds from my local gradle.properties file this is to deploy my image to my
+// personal docker repo.
+if (!hasProperty('quarkus.container-image.username')) {
+    ext['quarkus.container-image.username'] = docker_user
+}
+
+if (!hasProperty('quarkus.container-image.password')) {
+    ext['quarkus.container-image.password'] = docker_token
 }

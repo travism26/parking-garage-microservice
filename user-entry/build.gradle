@@ -22,6 +22,11 @@ dependencies {
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'io.quarkus:quarkus-smallrye-fault-tolerance'
     implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+
+    // push container creation / push
+    implementation 'io.quarkus:quarkus-container-image-jib'
+
+    // testing dep
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
     compileOnly 'org.eclipse.microprofile.rest.client:microprofile-rest-client-api:3.0.1'
@@ -46,4 +51,14 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+
+// Adding my docker creds from my local gradle.properties file this is to deploy my image to my
+// personal docker repo.
+if (!hasProperty('quarkus.container-image.username')) {
+    ext['quarkus.container-image.username'] = docker_user
+}
+
+if (!hasProperty('quarkus.container-image.password')) {
+    ext['quarkus.container-image.password'] = docker_token
 }
