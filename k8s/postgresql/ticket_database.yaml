@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+        db_name: ticket
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: ticket
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: postgres-config
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgres-secret
+#          volumeMounts:
+#            - mountPath: /var/lib/postgresql/data
+#              name: postgredb
+#      volumes:
+#        - name: postgredb
+#          persistentVolumeClaim:
+#            claimName: postgres-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+spec:
+  type: NodePort
+  ports:
+    - name: "30200"
+      nodePort: 30200
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: postgres

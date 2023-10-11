@@ -1,0 +1,22 @@
+{
+  "Servers": {
+    "1": {
+      "name": "ticket database",
+      "Group": "Servers",
+      "Port": 5432,
+      "Username": "quarkus",
+      "Host": "postgres",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    },
+    "2": {
+      "name": "spot_allocation database",
+      "Group": "Servers",
+      "Port": 5433,
+      "Username": "quarkus",
+      "Host": "postgres",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    }
+  }
+}

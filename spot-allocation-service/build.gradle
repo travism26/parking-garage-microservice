@@ -36,6 +36,9 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:5.2.0'
     testImplementation 'org.testcontainers:testcontainers:1.18.3'
     testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
+    // used for testing in memory database (no containers required)
+    implementation 'io.quarkus:quarkus-jdbc-h2'
+    testImplementation 'io.quarkus:quarkus-test-h2:3.2.2.Final'
 }
 
 group 'org.mtravis.microservices'

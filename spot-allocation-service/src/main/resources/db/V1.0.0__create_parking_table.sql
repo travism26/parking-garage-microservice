@@ -1,5 +1,5 @@
 CREATE TABLE parking_spot (
-    pk serial4 NOT NULL,
+    pk serial NOT NULL,
     id uuid NOT NULL,
     "spot_number" bigint NOT NULL,
     "spot_type" varchar NOT NULL,

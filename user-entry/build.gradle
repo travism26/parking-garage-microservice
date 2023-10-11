@@ -24,7 +24,6 @@ dependencies {
     implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
 
     // push container creation / push
-    implementation 'io.quarkus:quarkus-container-image-jib'
 
     // testing dep
     testImplementation 'io.quarkus:quarkus-junit5'
