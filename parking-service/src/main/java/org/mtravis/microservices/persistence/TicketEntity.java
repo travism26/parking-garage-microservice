@@ -22,9 +22,9 @@ public class TicketEntity {
     public long parkingSpot;
     @Column(name = "license_number", nullable = false)
     public String licenseNumber;
-    @Column(name = "entry_time", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = false)
+    @Column(name = "entry_time", columnDefinition = "TIMESTAMP", nullable = false)
     public Instant entryTime;
-    @Column(name = "exit_time", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true)
+    @Column(name = "exit_time", columnDefinition = "TIMESTAMP", nullable = true)
     public Instant exitTime;
 
     public void setPk(Integer pk) {

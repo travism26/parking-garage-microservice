@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: allocation-psql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: allocation-psql
+  template:
+    metadata:
+      labels:
+        app: allocation-psql
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: parking_spot
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: postgres-config
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgres-secret
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+#          volumeMounts:
+#            - mountPath: /var/lib/postgresql/data
+#              name: postgredb
+#      volumes:
+#        - name: postgredb
+#          persistentVolumeClaim:
+#            claimName: postgres-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: allocation-psql
+  name: allocation-psql
+spec:
+  type: NodePort
+  ports:
+    - name: "30201"
+      nodePort: 30201
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: allocation-psql

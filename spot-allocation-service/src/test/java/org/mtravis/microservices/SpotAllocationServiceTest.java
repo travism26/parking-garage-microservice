@@ -1,6 +1,8 @@
 package org.mtravis.microservices;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -19,6 +21,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @QuarkusTest
+@QuarkusTestResource(H2DatabaseTestResource.class)
 public class SpotAllocationServiceTest {
 
     static ParkingSpotRepository parkingSpotRepository = Mockito.mock(ParkingSpotRepository.class);
