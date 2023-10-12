@@ -130,6 +130,7 @@ public class ParkingServiceTest {
 
     @SneakyThrows
     @Test
+    @SuppressWarnings({"rawtypes", "unchecked"})
     void test_getById_NotFound(){
         PanacheQuery panacheQuery = Mockito.mock(PanacheQuery.class);
         when(ticketRepository.find(anyString(), (Object) any())).thenReturn(panacheQuery);
