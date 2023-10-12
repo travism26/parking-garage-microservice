@@ -44,16 +44,18 @@ http://localhost:8702/api/parking/v2
     public Response generateParkingTicket(Vehicle vehicle) {
         LOGGER.info("V2 generateParkingTicket vehicle info:{}", vehicle.toString());
 
+        // This make an API call to the allocation Service that's responsible for assigning a ticket a parking spot
         ParkingAllocationInformation allocationInformation = allocationApi.generateParkingTicketInfo(vehicle);
         LOGGER.info(allocationInformation.toString());
 
-        // This will be used for persistence
+        // Make a call to the ticketService to generate a ticket
         Ticket ticket = ticketService.generateTicket(vehicle.getLicenseNumber(), allocationInformation.getParkingSpot());
         // DTO Object return value
         TicketDto ticketDto = ticketMapper.toDto(ticket);
         ticketDto.spotType = allocationInformation.getSpotType();
         boolean persistBook = false;
         try {
+            // Attempt to persist the book into the database
             persistBook = ticketService.create(ticket);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

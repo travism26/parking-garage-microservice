@@ -1,16 +1,53 @@
 # parking-garage-microservice
 Expanding my knowledge in microservices just wanted to create a parking garage microservice I took some inspiration from this [blog post](https://medium.com/double-pointer/system-design-interview-parking-lot-system-ff2c58167651)
-I wrote a blog post explaining the implementation details and overview on this project.
-https://www.travisallister.com/post/parking-lot-microservice-application-implementation
+I also wrote a blog post explaining the implementation details and overview on this project link below.
+
+- Overview of this project: [Blog Post](https://www.travisallister.com/post/parking-lot-microservice-application-implementation)
 
 ## how to start the application
 There are 3 services (No UI yet):
 - user-entry
 - parking-service
 - spot-allocation-service ( In development )
-To start service navigate to the folder and the run the command:
+To start each service navigate to the folder and the run the below command you will need 3 terminals:
 ```
 ./gradlew quarkusdev
+```
+
+### running local kubernetes postgresql deployment
+I created some kubernetes files in the `k8s` directory Note pgadmin not yet working however postgresql is working to create the resources run the following command
+```commandline
+# Navigate to k8s directory 
+cd k8s
+# Create deployment 
+kubectl create -f postgresql
+```
+Once the postgresql deployment is set up you can run: `kubectl get all` for all the deployment details.
+```
+kubectl get all
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/allocation-psql-65dc7f9fb5-68ntm   1/1     Running   0          32s
+pod/postgres-7b8c586bb6-bdjvt          1/1     Running   0          32s
+
+NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/allocation-psql   NodePort    10.xxx.xxx.xx    <none>        5432:30201/TCP   32s
+service/kubernetes        ClusterIP   10.xx.0.1        <none>        443/TCP          85d
+service/postgres          NodePort    10.xxx.xxx.xxx   <none>        5432:30200/TCP   32s
+
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/allocation-psql   1/1     1            1           32s
+deployment.apps/postgres          1/1     1            1           32s
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/allocation-psql-65dc7f9fb5   1         1         1       32s
+replicaset.apps/postgres-7b8c586bb6          1         1         1       32s
+```
+Once all the resources are up and running we need to start our microservice using a different profile I set up `kube`.
+This profile has been configured to make use of the kubernetes deployment, each posgres deployment has an associated 
+NotePort that allow external connections that portforward to the database, I inject this into the Quarkus configuration
+allowing this connection to be made.
+```
+./gradlew quarkusdev -Dquarkus.profile=kube
 ```
 
 
