@@ -6,7 +6,7 @@ import org.mtravis.microservices.model.ParkingSpotType;
 import org.mtravis.microservices.model.Vehicle;
 
 /**
- * This will mock our endpoint giving us reliable output from a mocked endpoint
+ * This will mock our endpoint giving us reliable output from the endpoint
  */
 @Mock
 @RestClient
